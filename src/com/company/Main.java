@@ -135,9 +135,6 @@ public class Main {
                 takenTester[tester] = true;
                 testers[i] = selectionSet[tester];
             }
-
-
-
             // And here is where the results are outputted to the screen.
             System.out.format("%-30s %-30s", "Coder", "Tester");
             System.out.println("\n-----------------------------------------------------------");
@@ -147,11 +144,13 @@ public class Main {
             }
 
         } catch (FileNotFoundException fne) {
-            // Certain Java functions tend to get a little angery™ and start throwing stuff called
-            // "exceptions" around. Luckily, this catch statement used to be a professional baseball catcher.
+            // Certain Java functions tend to get a little angery™
+            // and start throwing stuff called "exceptions" around.
+            // Luckily, this catch statement used to be a professional baseball catcher.
             System.out.println(fne.toString());
         }
     }
+
     // This function outputs an array and its length.
     public static void Debug(String arrayIn[]) {
         System.out.print("[");
