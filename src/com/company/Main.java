@@ -10,6 +10,8 @@ Tester/Coder Lab
 import java.util.Random;
 import java.util.Scanner;
 import java.io.*;
+import java.util.stream.Stream;
+
 public class Main {
     public static void main(String[] args) {
         // Setup
@@ -34,11 +36,13 @@ public class Main {
             }
 
             // check if the input is valid
+            // side note: this only checks if the block numbers are valid. it does NOT check for the
+            // comma afterwards, nor for the name to be in the correct format.
             if (students != block1 + block2) {
                 System.out.println("The file format is invalid.");
                 System.exit(1);
             } else {
-                System.out.println("The file format is valid, continuing...");
+                System.out.println("The file format is valid, continuing...\n\n");
             }
 
             // initialize an array to make data processing easier
@@ -53,8 +57,8 @@ public class Main {
                 people[i] = read.nextLine();
             }
 
-            // Now we set up the sorting. We divide the array into two smaller ones for each block
-            // only if the user wanted one block only !! (this makes the program more optimized)
+            // Now this is where the actual data processing begins.
+            // This snippet chops up all the data to prepare it to be processed.
             int startat = 0, runto = 0;
             char block = 'a';
             String selectionSet[] = {};
@@ -86,49 +90,66 @@ public class Main {
                 }
             }
             // Debug(selectionSet); // This is a small function that outputs the array
+            // Disabled because, as the Russian CS:GO kid said, "I don' need it"
 
-            boolean taken[] = new boolean[selectionSet.length];
-            boolean exit = false, breaker = false;
-            int person1 = 0, person2 = 0, person3 = 0;
-            for (int i = 0; i < (taken.length / 2);) {
-                while (breaker == false) {
-                    person1 = (int) (Math.random()*taken.length);
-                    person2 = (int) (Math.random()*taken.length);
-                    if (person1 == person2) {
-                        person1 = (int) (Math.random()*taken.length);
-                        person2 = (int) (Math.random()*taken.length);
-                        if (taken.length%2 != 0 && i == (taken.length/2)-2) {
-                            person1 = (int) (Math.random()*taken.length);
-                            person2 = (int) (Math.random()*taken.length);
-                            person3 = (int) (Math.random()*taken.length);
-                        }
-                    } else if (person1 != person2) {
-                        break;
-                    } else {
-                        break;
+            // Now it's time to assign coders and testers.
+            String coders[] = new String[selectionSet.length];
+            String testers[] = new String[selectionSet.length];
+            boolean takenCoder[] = new boolean[selectionSet.length];
+            boolean takenTester[] = new boolean[selectionSet.length];
+
+
+            // Now we generate the pairs.
+            // Did someone say "DNA building?"
+            // Because if you did, please leave now.
+            for (int i = 0; i < selectionSet.length; i++) {
+                // This whole section is for avoiding duplicates.
+                int coder = (int) Math.floor(Math.random()*selectionSet.length);
+                int tester = (int) Math.floor(Math.random()*selectionSet.length);
+                if (coder == tester){
+                    while(coder == tester) {
+                        coder = (int) Math.floor(Math.random()*selectionSet.length);
+                        tester = (int) Math.floor(Math.random()*selectionSet.length);
                     }
                 }
-                if (taken[person1] == false && taken[person2] == false) {
-                    if (person1 != person2) {
-                        if ((taken.length %2 == 0) || (taken.length %2 != 0 && i < (taken.length/2)-1)) {
-                            System.out.println(selectionSet[person1] + " is the partner for " + selectionSet[person2] + ".");
-                            taken[person1] = true;
-                            taken[person2] = true;
-                            i++;
-                        } else {
-                            if (person1 != person3 && person2 != person3) {
-                                System.out.println(selectionSet[person1] + ", " + selectionSet[person2] + ", and " + selectionSet[person3] + " are working in a group of 3.");
-                                i++;
-                            }
-                        }
+                if (takenCoder[coder] == true || takenTester[tester] == true) {
+                    while (takenCoder[coder] == true || takenTester[tester] == true) {
+                        coder = (int) Math.floor(Math.random()*selectionSet.length);
+                        tester = (int) Math.floor(Math.random()*selectionSet.length);
                     }
-
                 }
+                // Once a new pair with zero duplicates has been chosen,
+                // those slots are marked as "taken" by the program
+                // so they don't get taken again
+                takenCoder[coder] = true;
+                takenTester[tester] = true;
+                coders[i] = selectionSet[coder];
+                testers[i] = selectionSet[tester];
+            }
 
+            // This is where the alphabetic sorting happens.
+            // I chose to do it by coder.
+            for (int i = 0; i < selectionSet.length; i++) {
+                for (int j = i + 1; j < selectionSet.length; j++) {
+                    if (coders[i].compareTo(coders[j])>0) {
+                        String temp = coders[i];
+                        coders[i] = coders[j];
+                        coders[j] = temp;
+                    }
+                }
+            }
 
+            // And here is where the results are outputted to the screen.
+            System.out.format("%-30s %-30s", "Coder", "Tester");
+            System.out.println("\n-----------------------------------------------------------");
+            for (int i = 0; i < coders.length; i++) {
+                System.out.format("%-30s %-30s", coders[i], testers[i]);
+                System.out.println();
             }
 
         } catch (FileNotFoundException fne) {
+            // Certain Java functions tend to get a little angery™ and start throwing stuff called
+            // "exceptions" around. Luckily, this catch statement used to be a professional baseball catcher.
             System.out.println(fne.toString());
         }
 

@@ -5,7 +5,7 @@
 1,Przestrzelski,Logan
 1,Rabtzow,Mason
 1,Balusamy,Ragav
-1,Chitneedi,Dhruva,
+1,Chitneedi,Dhruva
 1,Coutts,Aydin
 1,Gladstone,Carly
 1,Kim,Matthias
