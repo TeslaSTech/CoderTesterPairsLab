@@ -5,6 +5,7 @@ Valmik Revankar
 Coder/Tester lab
 9/18/2020
 Extra: Integrity checking the file (to an extent).
+Other Extra: It also times itself because I'm a Python user.
 */
 
 // imports
@@ -14,6 +15,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         // Setup
+        long startTime = 0; // for timing purposes
         try {
             File classlist = new File("src/com/company/classlist.txt");
             Scanner in = new Scanner(System.in);
@@ -23,6 +25,11 @@ public class Main {
             // block selection menu
             System.out.print("What block would you like to select testers for? \n1) Block 1\n2) Block 2\n3) Both blocks\nType the number for your desired choice: ");
             int blockChoice = in.nextInt();
+            // Ask the user how they want to sort the output (coder, tester, both)
+            System.out.println("How do you want to sort the output? By\n1)coder name\n2)tester name or\n3) would you like to see both?");
+            int sortChoice = in.nextInt();
+
+            startTime = System.nanoTime(); // this is for timing purposes.
 
             // how many people are in the file?
             while (read.hasNextLine()) {
@@ -87,9 +94,6 @@ public class Main {
                     selectionSet[i] = people[i].substring(2);
                 }
             }
-            // Debug(selectionSet); // This is a small function that outputs the array
-            // Disabled because, as the Russian CS:GO kid said, "I don' need it"
-            // [coming to get it]
 
             // Now it's time to assign coders and testers.
             String[] coders = new String[selectionSet.length];
@@ -123,13 +127,10 @@ public class Main {
                 testers[i] = selectionSet[tester];
             }
 
-            // Ask the user how they want to sort the output (coder, tester, both)
-            System.out.println("How do you want to sort the output? By\n1)coder name\n2)tester name or\n3) would you like to see both?");
-            int sortChoice = in.nextInt();
 
-            // Sorting phase
-            if (sortChoice == 1) {
-                // This is where the alphabetic sorting happens.
+
+            // Sorting and output
+            if (sortChoice == 1) { // sort by coder
                 for (int i = 0; i < selectionSet.length; i++) {
                     for (int j = i + 1; j < selectionSet.length; j++) {
                         if (coders[i].compareTo(coders[j]) > 0) {
@@ -148,7 +149,7 @@ public class Main {
                     System.out.format("%-30s %-30s", coders[i], testers[i]);
                     System.out.println();
                 }
-            } else if (sortChoice == 2) {
+            } else if (sortChoice == 2) { // sort by tester
                 for (int i = 0; i < selectionSet.length; i++) {
                     for (int j = i + 1; j < selectionSet.length; j++) {
                         if (testers[i].compareTo(testers[j]) > 0) {
@@ -167,7 +168,7 @@ public class Main {
                     System.out.format("%-30s %-30s", testers[i], coders[i]);
                     System.out.println();
                 }
-            } else if (sortChoice == 3) {
+            } else if (sortChoice == 3) { // sort by coder, print, sort by tester, and print
                 for (int i = 0; i < selectionSet.length; i++) {
                     for (int j = i + 1; j < selectionSet.length; j++) {
                         if (coders[i].compareTo(coders[j]) > 0) {
@@ -216,15 +217,8 @@ public class Main {
             // Luckily, this catch statement used to be a professional baseball catcher.
             System.out.println(fne.toString());
         }
-    }
-
-    // This function outputs an array and its length.
-    public static void Debug(String[] arrayIn) {
-        System.out.print("[");
-        for (int i = 0; i < arrayIn.length - 1; i++) {
-            System.out.print(arrayIn[i] + ", ");
-        }
-        System.out.println(arrayIn[arrayIn.length-1] + "]");
-        System.out.println("Array length: " + arrayIn.length);
+        long endTime = System.nanoTime();
+        long timeToRun = (endTime-startTime) / 1000;
+        System.out.println("Execution time (µs): " + timeToRun);
     }
 }
