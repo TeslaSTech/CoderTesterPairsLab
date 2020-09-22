@@ -93,6 +93,7 @@ public class Main {
             // Now it's time to assign coders and testers.
             String[] coders = new String[selectionSet.length];
             String[] testers = new String[selectionSet.length];
+            // "why you... why you boolean me" - not s1mple
             boolean[] takenTester = new boolean[selectionSet.length];
 
             for (int i = 0; i < selectionSet.length; i++) coders[i] = selectionSet[i];
