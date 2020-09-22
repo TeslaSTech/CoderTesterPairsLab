@@ -99,17 +99,6 @@ public class Main {
 
             for (int i = 0; i < selectionSet.length; i++) coders[i] = selectionSet[i];
 
-            // This is where the alphabetic sorting happens.
-            // I chose to do it by coder.
-            for (int i = 0; i < selectionSet.length; i++) {
-                for (int j = i + 1; j < selectionSet.length; j++) {
-                    if (coders[i].compareTo(coders[j])>0) {
-                        String temp = coders[i];
-                        coders[i] = coders[j];
-                        coders[j] = temp;
-                    }
-                }
-            }
 
             // Now we generate the pairs.
             // Did someone say "DNA building?"
@@ -133,12 +122,92 @@ public class Main {
                 takenTester[tester] = true;
                 testers[i] = selectionSet[tester];
             }
-            // And here is where the results are outputted to the screen.
-            System.out.format("%-30s %-30s", "Coder", "Tester");
-            System.out.println("\n-----------------------------------------------------------");
-            for (int i = 0; i < coders.length; i++) {
-                System.out.format("%-30s %-30s", coders[i], testers[i]);
-                System.out.println();
+
+            // Ask the user how they want to sort the output (coder, tester, both)
+            System.out.println("How do you want to sort the output? By\n1)coder name\n2)tester name or\n3) would you like to see both?");
+            int sortChoice = in.nextInt();
+
+            // Sorting phase
+            if (sortChoice == 1) {
+                // This is where the alphabetic sorting happens.
+                for (int i = 0; i < selectionSet.length; i++) {
+                    for (int j = i + 1; j < selectionSet.length; j++) {
+                        if (coders[i].compareTo(coders[j]) > 0) {
+                            String temp = coders[i];
+                            String temp2 = testers[i];
+                            coders[i] = coders[j];
+                            testers[i] = testers[j];
+                            coders[j] = temp;
+                            testers[j] = temp2;
+                        }
+                    }
+                }
+                System.out.format("%-30s %-30s", "Coder", "Tester");
+                System.out.println("\n-----------------------------------------------------------");
+                for (int i = 0; i < coders.length; i++) {
+                    System.out.format("%-30s %-30s", coders[i], testers[i]);
+                    System.out.println();
+                }
+            } else if (sortChoice == 2) {
+                for (int i = 0; i < selectionSet.length; i++) {
+                    for (int j = i + 1; j < selectionSet.length; j++) {
+                        if (testers[i].compareTo(testers[j]) > 0) {
+                            String temp = coders[i];
+                            String temp2 = testers[i];
+                            coders[i] = coders[j];
+                            testers[i] = testers[j];
+                            coders[j] = temp;
+                            testers[j] = temp2;
+                        }
+                    }
+                }
+                System.out.format("%-30s %-30s", "Tester", "Coder");
+                System.out.println("\n-----------------------------------------------------------");
+                for (int i = 0; i < coders.length; i++) {
+                    System.out.format("%-30s %-30s", testers[i], coders[i]);
+                    System.out.println();
+                }
+            } else if (sortChoice == 3) {
+                for (int i = 0; i < selectionSet.length; i++) {
+                    for (int j = i + 1; j < selectionSet.length; j++) {
+                        if (coders[i].compareTo(coders[j]) > 0) {
+                            String temp = coders[i];
+                            String temp2 = testers[i];
+                            coders[i] = coders[j];
+                            testers[i] = testers[j];
+                            coders[j] = temp;
+                            testers[j] = temp2;
+                        }
+                    }
+                }
+                System.out.format("%-30s %-30s", "Coder", "Tester");
+                System.out.println("\n-----------------------------------------------------------");
+                for (int i = 0; i < coders.length; i++) {
+                    System.out.format("%-30s %-30s", coders[i], testers[i]);
+                    System.out.println();
+                }
+                System.out.println("\n\n");
+                for (int i = 0; i < selectionSet.length; i++) {
+                    for (int j = i + 1; j < selectionSet.length; j++) {
+                        if (testers[i].compareTo(testers[j]) > 0) {
+                            String temp = coders[i];
+                            String temp2 = testers[i];
+                            coders[i] = coders[j];
+                            testers[i] = testers[j];
+                            coders[j] = temp;
+                            testers[j] = temp2;
+                        }
+                    }
+                }
+                System.out.format("%-30s %-30s", "Tester", "Coder");
+                System.out.println("\n-----------------------------------------------------------");
+                for (int i = 0; i < coders.length; i++) {
+                    System.out.format("%-30s %-30s", testers[i], coders[i]);
+                    System.out.println();
+                }
+            } else {
+                System.out.println("Invalid result provided. Exiting...");
+                System.exit(1);
             }
 
         } catch (FileNotFoundException fne) {
