@@ -95,36 +95,10 @@ public class Main {
             // Now it's time to assign coders and testers.
             String coders[] = new String[selectionSet.length];
             String testers[] = new String[selectionSet.length];
-            boolean takenCoder[] = new boolean[selectionSet.length];
             boolean takenTester[] = new boolean[selectionSet.length];
 
-
-            // Now we generate the pairs.
-            // Did someone say "DNA building?"
-            // Because if you did, please leave now.
             for (int i = 0; i < selectionSet.length; i++) {
-                // This whole section is for avoiding duplicates.
-                int coder = (int) Math.floor(Math.random()*selectionSet.length);
-                int tester = (int) Math.floor(Math.random()*selectionSet.length);
-                if (coder == tester){
-                    while(coder == tester) {
-                        coder = (int) Math.floor(Math.random()*selectionSet.length);
-                        tester = (int) Math.floor(Math.random()*selectionSet.length);
-                    }
-                }
-                if (takenCoder[coder] == true || takenTester[tester] == true) {
-                    while (takenCoder[coder] == true || takenTester[tester] == true) {
-                        coder = (int) Math.floor(Math.random()*selectionSet.length);
-                        tester = (int) Math.floor(Math.random()*selectionSet.length);
-                    }
-                }
-                // Once a new pair with zero duplicates has been chosen,
-                // those slots are marked as "taken" by the program
-                // so they don't get taken again
-                takenCoder[coder] = true;
-                takenTester[tester] = true;
-                coders[i] = selectionSet[coder];
-                testers[i] = selectionSet[tester];
+                coders[i] = selectionSet[i];
             }
 
             // This is where the alphabetic sorting happens.
@@ -139,6 +113,31 @@ public class Main {
                 }
             }
 
+            // Now we generate the pairs.
+            // Did someone say "DNA building?"
+            // Because if you did, please leave now.
+            for (int i = 0; i < selectionSet.length; i++) {
+                // This whole section is for avoiding duplicates.
+                int tester = (int) Math.floor(Math.random()*selectionSet.length);
+                if (coders[tester].equals(testers[tester])) {
+                    while(coders[tester].equals(testers[tester])) {
+                        tester = (int) Math.floor(Math.random()*selectionSet.length);
+                    }
+                }
+                if (takenTester[tester] == true) {
+                    while (takenTester[tester] == true) {
+                        tester = (int) Math.floor(Math.random()*selectionSet.length);
+                    }
+                }
+                // Once a new pair with zero duplicates has been chosen,
+                // those slots are marked as "taken" by the program
+                // so they don't get taken again
+                takenTester[tester] = true;
+                testers[i] = selectionSet[tester];
+            }
+
+
+
             // And here is where the results are outputted to the screen.
             System.out.format("%-30s %-30s", "Coder", "Tester");
             System.out.println("\n-----------------------------------------------------------");
@@ -152,11 +151,7 @@ public class Main {
             // "exceptions" around. Luckily, this catch statement used to be a professional baseball catcher.
             System.out.println(fne.toString());
         }
-
-
-
     }
-
     // This function outputs an array and its length.
     public static void Debug(String arrayIn[]) {
         System.out.print("[");
