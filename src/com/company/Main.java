@@ -2,15 +2,14 @@ package com.company;
 
 /*
 Valmik Revankar
-Tester/Coder Lab
+Coder/Tester lab
 9/18/2020
+Extra: Integrity checking the file (to an extent).
 */
 
-// basic setup
-import java.util.Random;
+// imports
 import java.util.Scanner;
 import java.io.*;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,7 +46,7 @@ public class Main {
 
             // initialize an array to make data processing easier
 
-            String people[] = new String[students+1];
+            String[] people = new String[students+1];
 
             // now we reset the Scanner
             read = new Scanner(classlist);
@@ -61,19 +60,18 @@ public class Main {
             // This snippet chops up all the data to prepare it to be processed.
             int startat = 0, runto = 0;
             char block = 'a';
-            String selectionSet[] = {};
+            String[] selectionSet = {};
             if (blockChoice == 1 | blockChoice == 2) {
-                switch(blockChoice) {
-                    case 1:
-                        startat = 0;
+                switch (blockChoice) {
+                    case 1 -> {
                         runto = block1;
                         block = '1';
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         startat = block1;
-                        runto = block2+block1;
+                        runto = block2 + block1;
                         block = '2';
-                        break;
+                    }
                 }
                 selectionSet = new String[runto-startat];
                 int k = 0;
@@ -93,13 +91,11 @@ public class Main {
             // Disabled because, as the Russian CS:GO kid said, "I don' need it"
 
             // Now it's time to assign coders and testers.
-            String coders[] = new String[selectionSet.length];
-            String testers[] = new String[selectionSet.length];
-            boolean takenTester[] = new boolean[selectionSet.length];
+            String[] coders = new String[selectionSet.length];
+            String[] testers = new String[selectionSet.length];
+            boolean[] takenTester = new boolean[selectionSet.length];
 
-            for (int i = 0; i < selectionSet.length; i++) {
-                coders[i] = selectionSet[i];
-            }
+            for (int i = 0; i < selectionSet.length; i++) coders[i] = selectionSet[i];
 
             // This is where the alphabetic sorting happens.
             // I chose to do it by coder.
@@ -124,8 +120,8 @@ public class Main {
                         tester = (int) Math.floor(Math.random()*selectionSet.length);
                     }
                 }
-                if (takenTester[tester] == true) {
-                    while (takenTester[tester] == true) {
+                if (takenTester[tester]) {
+                    while (takenTester[tester]) {
                         tester = (int) Math.floor(Math.random()*selectionSet.length);
                     }
                 }
@@ -152,7 +148,7 @@ public class Main {
     }
 
     // This function outputs an array and its length.
-    public static void Debug(String arrayIn[]) {
+    public static void Debug(String[] arrayIn) {
         System.out.print("[");
         for (int i = 0; i < arrayIn.length - 1; i++) {
             System.out.print(arrayIn[i] + ", ");
