@@ -51,7 +51,7 @@ public class Main {
             // now we reset the Scanner
             read = new Scanner(classlist);
 
-            // Turn the file into an array so we don't have to keep reading the file
+            // Turn the file into an array so we don't have to keep reading it
             for (int i = 0; i < students; i++) {
                 people[i] = read.nextLine();
             }
@@ -89,6 +89,7 @@ public class Main {
             }
             // Debug(selectionSet); // This is a small function that outputs the array
             // Disabled because, as the Russian CS:GO kid said, "I don' need it"
+            // [coming to get it]
 
             // Now it's time to assign coders and testers.
             String[] coders = new String[selectionSet.length];
