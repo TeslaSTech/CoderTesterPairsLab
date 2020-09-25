@@ -17,9 +17,9 @@ public class Main {
         // Setup
         long startTime = 0; // for timing purposes
         try {
-            File classlist = new File("src/com/company/classlist.txt");
+            String classlist = "src/com/company/classlist.txt";
             Scanner in = new Scanner(System.in);
-            Scanner read = new Scanner(classlist);
+            BufferedReader read = new BufferedReader(new FileReader(classlist)); //pass files in as a commandline argument
             int students = 0, block1 = 0, block2 = 0;
 
             // block selection menu
@@ -32,14 +32,24 @@ public class Main {
             startTime = System.nanoTime(); // this is for timing purposes.
 
             // how many people are in the file?
-            while (read.hasNextLine()) {
-                String temp = read.nextLine();
+            String line = read.readLine();
+            do {
+                // System.out.println(students + ")   " + line);
+                switch (line.charAt(0)) {
+                    case '1':
+                        block1++;
+                        break;
+                    case '2':
+                        block2++;
+                        break;
+                }
+                line = read.readLine();
                 students++;
-                if (temp.charAt(0) == '1')
-                    block1++;
-                else if (temp.charAt(0) == '2')
-                    block2++;
-            }
+            } while (line != null);
+            System.out.println("Block 1: " + block1);
+            System.out.println("Block 2: " + block2);
+            System.out.println("Student total: " + students);
+            read.close();
 
             // check if the input is valid
             // side note: this only checks if the block numbers are valid. it does NOT check for the
@@ -56,12 +66,18 @@ public class Main {
             String[] people = new String[students+1];
 
             // now we reset the Scanner
-            read = new Scanner(classlist);
+            read = new BufferedReader(new FileReader(classlist));
 
             // Turn the file into an array so we don't have to keep reading it
-            for (int i = 0; i < students; i++) {
-                people[i] = read.nextLine();
-            }
+            line = read.readLine();
+            int counter = 0;
+            do {
+                people[counter] = line;
+                line = read.readLine();
+                counter++;
+            } while (line != null);
+            read.close();
+
 
             // Now this is where the actual data processing begins.
             // This snippet chops up all the data to prepare it to be processed.
@@ -216,6 +232,8 @@ public class Main {
             // and start throwing stuff called "exceptions" around.
             // Luckily, this catch statement used to be a professional baseball catcher.
             System.out.println(fne.toString());
+        } catch (IOException ioe) {
+            System.out.println(ioe.toString());
         }
         long endTime = System.nanoTime();
         long timeToRun = (endTime-startTime) / 1000;
