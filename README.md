@@ -1,7 +1,9 @@
 # Coder Tester Pairs Lab
 
-Lab for AP Computer Science 10.
+Lab for Computer Science 10.
 
-Written in Java. Not my choice, but oh well.
+- Works all the way from two people up to (basically) infinity.
 
-~~LOL get flexed on CompSci kids~~
+- Data integrity checking, built in µs timing system.
+
+- Uses BufferedReader in order to read files very quickly and have excellent scalability.
