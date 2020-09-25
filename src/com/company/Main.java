@@ -86,15 +86,13 @@ public class Main {
             String[] selectionSet = {};
             if (blockChoice == 1 | blockChoice == 2) {
                 switch (blockChoice) {
-                    case 1 -> {
+                    case 1:
                         runto = block1;
                         block = '1';
-                    }
-                    case 2 -> {
+                    case 2:
                         startat = block1;
                         runto = block2 + block1;
                         block = '2';
-                    }
                 }
                 selectionSet = new String[runto-startat];
                 int k = 0;
