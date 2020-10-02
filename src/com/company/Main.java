@@ -158,6 +158,8 @@ public class Main {
                         }
                     }
                 }
+                System.out.format("%35s %45s", "Tester", "Coder");
+                System.out.println("\n");
                 System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
                 System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
                 for (int i = 0; i < coders.length; i++) {
@@ -177,6 +179,8 @@ public class Main {
                         }
                     }
                 }
+                System.out.format("%35s %45s", "Tester", "Coder");
+                System.out.println("\n");
                 System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Tester First Name", "Tester Last Name", "Tester Block", "Coder First Name", "Coder Last Name", "Coder Block");
                 System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
                 for (int i = 0; i < coders.length; i++) {
@@ -196,6 +200,8 @@ public class Main {
                         }
                     }
                 }
+                System.out.format("%35s %45s", "Tester", "Coder");
+                System.out.println("\n");
                 System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
                 System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
                 for (int i = 0; i < coders.length; i++) {
@@ -215,6 +221,8 @@ public class Main {
                     }
                 }
                 System.out.println();
+                System.out.format("%35s %45s", "Tester", "Coder");
+                System.out.println("\n");
                 System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Tester First Name", "Tester Last Name", "Tester Block", "Coder First Name", "Coder Last Name", "Coder Block");
                 System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
                 for (int i = 0; i < coders.length; i++) {
