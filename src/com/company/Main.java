@@ -19,7 +19,7 @@ public class Main {
         try {
             String classlist = "src/com/company/classlist.txt";
             Scanner in = new Scanner(System.in);
-            BufferedReader read = new BufferedReader(new FileReader(classlist)); //pass files in as a commandline argument
+            BufferedReader read = new BufferedReader(new FileReader(classlist));
             int students = 0, block1 = 0, block2 = 0;
 
             // block selection menu
@@ -158,7 +158,7 @@ public class Main {
                         }
                     }
                 }
-                System.out.format("%35s %45s", "Tester", "Coder");
+                System.out.format("%35s %45s", "Coder", "Tester");
                 System.out.println("\n");
                 System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
                 System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
@@ -200,7 +200,7 @@ public class Main {
                         }
                     }
                 }
-                System.out.format("%35s %45s", "Tester", "Coder");
+                System.out.format("%35s %45s", "Coder", "Tester");
                 System.out.println("\n");
                 System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
                 System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
