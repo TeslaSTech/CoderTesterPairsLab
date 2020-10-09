@@ -11,8 +11,10 @@ Other Extra: It also times itself because I'm a Python user.
 // imports
 import java.util.Scanner;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Main {
+    public static String[] coders, testers, selectionSet;
     public static void main(String[] args) {
         // Setup
         long startTime = 0; // for timing purposes
@@ -21,6 +23,7 @@ public class Main {
             Scanner in = new Scanner(System.in);
             BufferedReader read = new BufferedReader(new FileReader(classlist));
             int students = 0, block1 = 0, block2 = 0;
+            ArrayList<String> people = new ArrayList<>();
 
             // block selection menu
             System.out.print("What block would you like to select testers for? \n1) Block 1\n2) Block 2\n3) Both blocks\nType the number for your desired choice: ");
@@ -43,6 +46,7 @@ public class Main {
                         block2++;
                         break;
                 }
+                people.add(line);
                 line = read.readLine();
                 students++;
             } while (line != null);
@@ -61,29 +65,12 @@ public class Main {
                 System.out.println("The file format is valid, continuing...\n\n");
             }
 
-            // initialize an array to make data processing easier
-
-            String[] people = new String[students+1];
-
-            // now we reset the Scanner
-            read = new BufferedReader(new FileReader(classlist));
-
-            // Turn the file into an array so we don't have to keep reading it
-            line = read.readLine();
-            int counter = 0;
-            do {
-                people[counter] = line;
-                line = read.readLine();
-                counter++;
-            } while (line != null);
-            read.close();
-
+            // There used to be something here... until I found out about ArrayList.
 
             // Now this is where the actual data processing begins.
             // This snippet chops up all the data to prepare it to be processed.
             int startat = 0, runto = 0;
             char block = 'a';
-            String[] selectionSet = {};
             if (blockChoice == 1 | blockChoice == 2) {
                 switch (blockChoice) {
                     case 1:
@@ -98,26 +85,25 @@ public class Main {
                 selectionSet = new String[runto-startat];
                 int k = 0;
                 for (int i = 0; i < runto; i++) {
-                    if (people[i].charAt(0) == block) {
-                        selectionSet[k] = people[i];
+                    if (people.get(i).charAt(0) == block) {
+                        selectionSet[k] = people.get(i);
                         k++;
                     }
                 }
             } else if (blockChoice == 3) {
                 selectionSet = new String[block1 + block2];
                 for (int i = 0; i < block1+block2; i++) {
-                    selectionSet[i] = people[i];
+                    selectionSet[i] = people.get(i);
                 }
             }
 
             // Now it's time to assign coders and testers.
-            String[] coders = new String[selectionSet.length];
-            String[] testers = new String[selectionSet.length];
+            coders = new String[selectionSet.length];
+            testers = new String[selectionSet.length];
             // "why you... why you boolean me" - not s1mple
             boolean[] takenTester = new boolean[selectionSet.length];
 
-            for (int i = 0; i < selectionSet.length; i++) coders[i] = selectionSet[i];
-
+            if (selectionSet.length >= 0) System.arraycopy(selectionSet, 0, coders, 0, selectionSet.length);
 
             // Now we generate the pairs.
             // Did someone say "DNA building?"
@@ -142,108 +128,69 @@ public class Main {
                 testers[i] = selectionSet[tester];
             }
 
-
-
             // Sorting and output
             if (sortChoice == 1) { // sort by coder
-                for (int i = 0; i < selectionSet.length; i++) {
-                    for (int j = i + 1; j < selectionSet.length; j++) {
-                        if (coders[i].substring(coders[i].lastIndexOf(",")).compareTo(coders[j].substring(coders[j].lastIndexOf(","))) > 0) {
-                            String temp = coders[i];
-                            String temp2 = testers[i];
-                            coders[i] = coders[j];
-                            testers[i] = testers[j];
-                            coders[j] = temp;
-                            testers[j] = temp2;
-                        }
-                    }
-                }
-                System.out.format("%35s %45s", "Coder", "Tester");
-                System.out.println("\n");
-                System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
-                System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
-                for (int i = 0; i < coders.length; i++) {
-                    System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s ", coders[i].substring(coders[i].lastIndexOf(",")+1), coders[i].substring(coders[i].indexOf(",")+1, coders[i].lastIndexOf(",")), coders[i].substring(0,coders[i].indexOf(",")), testers[i].substring(testers[i].lastIndexOf(",")+1), testers[i].substring(testers[i].indexOf(",")+1, testers[i].lastIndexOf(",")), testers[i].substring(0,testers[i].indexOf(",")));
-                    System.out.println();
-                }
+                returnText("coder");
             } else if (sortChoice == 2) { // sort by testers
-                for (int i = 0; i < selectionSet.length; i++) {
-                    for (int j = i + 1; j < selectionSet.length; j++) {
-                        if (testers[i].substring(testers[i].lastIndexOf(",")).compareTo(testers[j].substring(testers[j].lastIndexOf(","))) > 0) {
-                            String temp = coders[i];
-                            String temp2 = testers[i];
-                            coders[i] = coders[j];
-                            testers[i] = testers[j];
-                            coders[j] = temp;
-                            testers[j] = temp2;
-                        }
-                    }
-                }
-                System.out.format("%35s %45s", "Tester", "Coder");
-                System.out.println("\n");
-                System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Tester First Name", "Tester Last Name", "Tester Block", "Coder First Name", "Coder Last Name", "Coder Block");
-                System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
-                for (int i = 0; i < coders.length; i++) {
-                    System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s ", testers[i].substring(testers[i].lastIndexOf(",")+1), testers[i].substring(testers[i].indexOf(",")+1, testers[i].lastIndexOf(",")), testers[i].substring(0,testers[i].indexOf(",")), coders[i].substring(coders[i].lastIndexOf(",")+1), coders[i].substring(coders[i].indexOf(",")+1, coders[i].lastIndexOf(",")), coders[i].substring(0,coders[i].indexOf(",")));
-                    System.out.println();
-                }
+                returnText("tester");
             } else if (sortChoice == 3) {
-                for (int i = 0; i < selectionSet.length; i++) {
-                    for (int j = i + 1; j < selectionSet.length; j++) {
-                        if (coders[i].substring(coders[i].lastIndexOf(",")).compareTo(coders[j].substring(coders[j].lastIndexOf(","))) > 0) {
-                            String temp = coders[i];
-                            String temp2 = testers[i];
-                            coders[i] = coders[j];
-                            testers[i] = testers[j];
-                            coders[j] = temp;
-                            testers[j] = temp2;
-                        }
-                    }
-                }
-                System.out.format("%35s %45s", "Coder", "Tester");
-                System.out.println("\n");
-                System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
-                System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
-                for (int i = 0; i < coders.length; i++) {
-                    System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s ", coders[i].substring(coders[i].lastIndexOf(",")+1), coders[i].substring(coders[i].indexOf(",")+1, coders[i].lastIndexOf(",")), coders[i].substring(0,coders[i].indexOf(",")), testers[i].substring(testers[i].lastIndexOf(",")+1), testers[i].substring(testers[i].indexOf(",")+1, testers[i].lastIndexOf(",")), testers[i].substring(0,testers[i].indexOf(",")));
-                    System.out.println();
-                }
-                for (int i = 0; i < selectionSet.length; i++) {
-                    for (int j = i + 1; j < selectionSet.length; j++) {
-                        if (testers[i].substring(testers[i].lastIndexOf(",")).compareTo(testers[j].substring(testers[j].lastIndexOf(","))) > 0) {
-                            String temp = coders[i];
-                            String temp2 = testers[i];
-                            coders[i] = coders[j];
-                            testers[i] = testers[j];
-                            coders[j] = temp;
-                            testers[j] = temp2;
-                        }
-                    }
-                }
-                System.out.println();
-                System.out.format("%35s %45s", "Tester", "Coder");
-                System.out.println("\n");
-                System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Tester First Name", "Tester Last Name", "Tester Block", "Coder First Name", "Coder Last Name", "Coder Block");
-                System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
-                for (int i = 0; i < coders.length; i++) {
-                    System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s ", testers[i].substring(testers[i].lastIndexOf(",")+1), testers[i].substring(testers[i].indexOf(",")+1, testers[i].lastIndexOf(",")), testers[i].substring(0,testers[i].indexOf(",")), coders[i].substring(coders[i].lastIndexOf(",")+1), coders[i].substring(coders[i].indexOf(",")+1, coders[i].lastIndexOf(",")), coders[i].substring(0,coders[i].indexOf(",")));
-                    System.out.println();
-                }
+                returnText("coder");
+                returnText("tester");
             } else {
                 System.out.println("Invalid result provided. Exiting...");
                 System.exit(1);
             }
 
-        } catch (FileNotFoundException fne) {
+        } catch (IOException fne) {
             // Certain Java functions tend to get a little angery™
             // and start throwing stuff called "exceptions" around.
             // Luckily, this catch statement used to be a professional baseball catcher.
             System.out.println(fne.toString());
-        } catch (IOException ioe) {
-            System.out.println(ioe.toString());
         }
         long endTime = System.nanoTime();
         long timeToRun = (endTime-startTime) / 1000;
         System.out.println("Execution time (µs): " + timeToRun);
+    }
+
+    public static void returnText(String sortType) {
+        if (sortType.equalsIgnoreCase("coder")) {
+            sortCodersAndTesters(coders);
+            System.out.format("%35s %45s", "Coder", "Tester");
+            System.out.println("\n");
+            System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Coder First Name", "Coder Last Name", "Coder Block", "Tester First Name", "Tester Last Name", "Tester Block");
+            printOut(coders, testers);
+        } else if (sortType.equalsIgnoreCase("tester")) {
+            sortCodersAndTesters(testers);
+            System.out.println();
+            System.out.format("%35s %45s", "Tester", "Coder");
+            System.out.println("\n");
+            System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s", "Tester First Name", "Tester Last Name", "Tester Block", "Coder First Name", "Coder Last Name", "Coder Block");
+            printOut(testers, coders);
+        } else {
+            System.out.println("returnText: invalid argument passed");
+        }
+    }
+
+    private static void sortCodersAndTesters(String[] coders) {
+        for (int i = 0; i < selectionSet.length; i++) {
+            for (int j = i + 1; j < selectionSet.length; j++) {
+                if (coders[i].substring(coders[i].lastIndexOf(",")).compareTo(coders[j].substring(coders[j].lastIndexOf(","))) > 0) {
+                    String temp = coders[i];
+                    String temp2 = testers[i];
+                    coders[i] = coders[j];
+                    testers[i] = testers[j];
+                    coders[j] = temp;
+                    testers[j] = temp2;
+                }
+            }
+        }
+    }
+
+    private static void printOut(String[] testers, String[] coders) {
+        System.out.println("\n----------------------------------------------------------------------------------------------------------------------");
+        for (int i = 0; i < coders.length; i++) {
+            System.out.format("%-20s %-20s %-20s %-20s %-20s %-20s ", testers[i].substring(testers[i].lastIndexOf(",")+1), testers[i].substring(testers[i].indexOf(",")+1, testers[i].lastIndexOf(",")), testers[i].substring(0, testers[i].indexOf(",")), coders[i].substring(coders[i].lastIndexOf(",")+1), coders[i].substring(coders[i].indexOf(",")+1, coders[i].lastIndexOf(",")), coders[i].substring(0, coders[i].indexOf(",")));
+            System.out.println();
+        }
     }
 }
